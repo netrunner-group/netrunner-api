@@ -1,0 +1,743 @@
+openapi: 3.0.0
+
+info:
+  title: Netrunner
+  description: Netrunner openapi spec
+  version: 1.0.0
+
+servers:
+  - url: 'https://api.nrgroup.pro'
+    description: Production server
+  - url: 'http://localhost:8080'
+    description: Development server
+
+tags:
+  - name: course
+    description: endpoints related to courses
+  - name: module
+    description: endpoints related to modules
+  - name: lesson
+    description: endpoints related to lessons
+  - name: practice
+    description: endpoints related to practice
+  - name: test
+    description: endpoints related to practice
+
+components:
+  schemas:
+    CourseRq:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 5
+          maxLength: 255
+        description:
+          type: string
+          minLength: 5
+          maxLength: 255
+        price:
+          type: number
+          format: decimal
+      required:
+        - title
+        - description
+        - price
+    CourseRs:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: decimal
+      required:
+        - id
+        - title
+        - description
+        - price
+    ModuleRs:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        articles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArticleRs'
+      required:
+        - id
+        - title
+    ModuleRq:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 5
+          maxLength: 255
+      required:
+        - title
+    ArticleRs:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          minLength: 5
+          maxLength: 255
+        type:
+          type: string
+          enum:
+            - lesson
+            - test
+            - practice
+      required:
+        - id
+        - title
+        - type
+    LessonRs:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          minLength: 5
+          maxLength: 255
+        body:
+          type: string
+      required:
+        - id
+        - title
+        - body
+    LessonRq:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 5
+          maxLength: 255
+        body:
+          type: string
+      required:
+        - id
+        - title
+        - body
+    PracticeRs:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        prepare:
+          type: string
+        task:
+          type: string
+        fileId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - prepare
+        - task
+        - fileId
+    PracticeRq:
+      type: object
+      properties:
+        prepare:
+          type: string
+        task:
+          type: string
+        fileId:
+          type: string
+          format: uuid
+        answer:
+          type: string
+      required:
+        - prepare
+        - task
+        - fileId
+        - answer
+    PracticeResultRq:
+      type: object
+      properties:
+        answer:
+          type: string
+      required:
+        - answer
+    PracticeResultRs:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        correct:
+          type: boolean
+      required:
+        - id
+        - correct
+    QuestionRs:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          minLength: 5
+          maxLength: 255
+        variants:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - title
+        - variants
+    TestRs:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestionRs'
+      required:
+        - id
+        - questions
+    QuestionRq:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 5
+          maxLength: 255
+        correct:
+          type: integer
+        variants:
+          type: array
+          items:
+            type: string
+      required:
+        - title
+    TestRq:
+      type: object
+      properties:
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestionRq'
+      required:
+        - questions
+    QuestionResultRq:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        answerNumber:
+          type: integer
+      required:
+        - id
+        - answerNumber
+    TestResultRq:
+      type: object
+      properties:
+        question:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestionResultRq'
+      required:
+        - question
+    TestResultRs:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        result:
+          type: integer
+      required:
+        - id
+        - result
+
+paths:
+  /courses:
+    get:
+      summary: Get all courses
+      tags:
+        - course
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CourseRs'
+    post:
+      summary: Create a new course
+      tags:
+        - course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseRq'
+      responses:
+        '200': 
+          description: Sucessful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseRs'
+  /course/{id}:
+    get:
+      summary: Get course
+      tags:
+        - course
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseRs'
+    put:
+      summary: Change course data
+      tags:
+        - course
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseRq'
+      responses:
+        '200': 
+          description: Sucessful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseRs'
+    delete:
+      summary: Delete course
+      tags:
+        - course
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Succesful response
+  /modules/{courseId}:
+    get:
+      summary: Get all modules by course
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ModuleRs'
+    post:
+      summary: Add module to course
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModuleRq'
+      responses:
+        '200': 
+          description: Sucessful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleRs'
+  /module/{id}:
+    get:
+      summary: Get module
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleRs'
+    put:
+      summary: Change module data
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModuleRq'
+      responses:
+        '200': 
+          description: Sucessful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleRs'
+    delete:
+      summary: Delete module
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200': 
+          description: Sucessful response
+  /lesson:
+    post:
+      summary: Create lesson
+      tags:
+        - lesson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LessonRq'
+      responses:
+        '200': 
+          description: Sucessful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonRs'
+  /lesson/{id}:
+    get:
+      summary: Get lessons
+      tags:
+        - lesson
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonRs'
+    put:
+      summary: Change lesson data
+      tags:
+        - lesson
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LessonRq'
+      
+      responses:
+        '200': 
+          description: Sucessful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonRs'
+    delete:
+      summary: Delete lesson
+      tags:
+        - lesson
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200': 
+          description: Sucessful response
+  /practice:
+    post:
+      summary: Create practice
+      tags:
+        - practice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PracticeRq'
+      responses:
+        '200': 
+          description: Sucessful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PracticeRs'
+  /practice/{id}:
+    get:
+      summary: Get practice
+      tags:
+        - practice
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PracticeRs'
+    put:
+      summary: Change practice data
+      tags:
+        - practice
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PracticeRq'
+      responses:
+        '200': 
+          description: Sucessful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PracticeRs'
+    delete:
+      summary: Delete practice
+      tags:
+        - practice
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200': 
+          description: Sucessful response
+  /practice/{id}/result:
+    post:
+      summary: Get practice result
+      tags:
+        - practice
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PracticeResultRq'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PracticeResultRs'
+  /test/{id}:
+    get:
+      summary: Get test
+      tags:
+        - test
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestRs'
+    put:
+      summary: Change test data
+      tags:
+        - test
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestRq'
+      responses:
+        '200': 
+          description: Sucessful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestRs'
+    delete:
+      summary: Delete test
+      tags:
+        - test
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200': 
+          description: Sucessful response
+  /test:
+    post:
+      summary: Create test
+      tags:
+        - test
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestRq'
+      responses:
+        '200': 
+          description: Sucessful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestRs'
+  /test/{id}/result:
+    post:
+      summary: Get test results
+      tags:
+        - test
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestResultRq'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResultRs'
