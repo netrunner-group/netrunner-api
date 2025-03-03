@@ -38,7 +38,7 @@ components:
           maxLength: 255
         price:
           type: number
-          format: decimal
+          format: digits
       required:
         - title
         - description
@@ -55,7 +55,7 @@ components:
           type: string
         price:
           type: number
-          format: decimal
+          format: digits
       required:
         - id
         - title
