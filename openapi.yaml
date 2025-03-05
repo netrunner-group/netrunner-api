@@ -32,13 +32,19 @@ components:
           type: string
           minLength: 5
           maxLength: 255
+          x-oapi-codegen-extra-tags:
+            db: title
         description:
           type: string
           minLength: 5
           maxLength: 255
+          x-oapi-codegen-extra-tags:
+            db: description
         price:
           type: number
           format: double
+          x-oapi-codegen-extra-tags:
+            db: price
       required:
         - title
         - description
@@ -49,13 +55,21 @@ components:
         id:
           type: string
           format: uuid
+          x-oapi-codegen-extra-tags:
+            db: id
         title:
           type: string
+          x-oapi-codegen-extra-tags:
+            db: title
         description:
           type: string
+          x-oapi-codegen-extra-tags:
+            db: description
         price:
           type: number
           format: double
+          x-oapi-codegen-extra-tags:
+            db: price
       required:
         - id
         - title
@@ -111,12 +125,18 @@ components:
         id:
           type: string
           format: uuid
+          x-oapi-codegen-extra-tags:
+            db: id
         title:
           type: string
           minLength: 5
           maxLength: 255
+          x-oapi-codegen-extra-tags:
+            db: id
         body:
           type: string
+          x-oapi-codegen-extra-tags:
+            db: body
       required:
         - id
         - title
@@ -128,8 +148,12 @@ components:
           type: string
           minLength: 5
           maxLength: 255
+          x-oapi-codegen-extra-tags:
+            db: title
         body:
           type: string
+          x-oapi-codegen-extra-tags:
+            db: body
       required:
         - id
         - title
@@ -140,13 +164,21 @@ components:
         id:
           type: string
           format: uuid
+          x-oapi-codegen-extra-tags:
+            db: id
         prepare:
           type: string
+          x-oapi-codegen-extra-tags:
+            db: prepare
         task:
           type: string
+          x-oapi-codegen-extra-tags:
+            db: task
         fileId:
           type: string
           format: uuid
+          x-oapi-codegen-extra-tags:
+            db: file_id
       required:
         - id
         - prepare
@@ -157,13 +189,21 @@ components:
       properties:
         prepare:
           type: string
+          x-oapi-codegen-extra-tags:
+            db: prepare
         task:
           type: string
+          x-oapi-codegen-extra-tags:
+            db: task
         fileId:
           type: string
           format: uuid
+          x-oapi-codegen-extra-tags:
+            db: file_id
         answer:
           type: string
+          x-oapi-codegen-extra-tags:
+            db: answer
       required:
         - prepare
         - task
@@ -193,14 +233,20 @@ components:
         id:
           type: string
           format: uuid
+          x-oapi-codegen-extra-tags:
+            db: id
         title:
           type: string
           minLength: 5
           maxLength: 255
+          x-oapi-codegen-extra-tags:
+            db: title
         variants:
           type: array
           items:
             type: string
+          x-oapi-codegen-extra-tags:
+            db: variants
       required:
         - id
         - title
@@ -211,10 +257,14 @@ components:
         id:
           type: string
           format: uuid
+          x-oapi-codegen-extra-tags:
+            db: id
         questions:
           type: array
           items:
             $ref: '#/components/schemas/QuestionRs'
+          x-oapi-codegen-extra-tags:
+            db: questions
       required:
         - id
         - questions
@@ -225,12 +275,18 @@ components:
           type: string
           minLength: 5
           maxLength: 255
+          x-oapi-codegen-extra-tags:
+            db: title
         correct:
           type: integer
+          x-oapi-codegen-extra-tags:
+            db: correct
         variants:
           type: array
           items:
             type: string
+          x-oapi-codegen-extra-tags:
+            db: variants
       required:
         - title
     TestRq:
@@ -240,6 +296,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/QuestionRq'
+          x-oapi-codegen-extra-tags:
+            db: questions
       required:
         - questions
     QuestionResultRq:
