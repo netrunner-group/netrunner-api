@@ -166,6 +166,10 @@ components:
           format: uuid
           x-oapi-codegen-extra-tags:
             db: id
+        title:
+          type: string
+          x-oapi-codegen-extra-tags:
+            db: title
         prepare:
           type: string
           x-oapi-codegen-extra-tags:
@@ -181,12 +185,17 @@ components:
             db: file_id
       required:
         - id
+        - title
         - prepare
         - task
         - fileId
     PracticeRq:
       type: object
       properties:
+        title:
+          type: string
+          x-oapi-codegen-extra-tags:
+            db: title
         prepare:
           type: string
           x-oapi-codegen-extra-tags:
@@ -205,6 +214,7 @@ components:
           x-oapi-codegen-extra-tags:
             db: answer
       required:
+        - title
         - prepare
         - task
         - fileId
@@ -259,6 +269,10 @@ components:
           format: uuid
           x-oapi-codegen-extra-tags:
             db: id
+        title:
+          type: string
+          x-oapi-codegen-extra-tags:
+            db: title
         questions:
           type: array
           items:
@@ -267,6 +281,7 @@ components:
             db: questions
       required:
         - id
+        - title
         - questions
     QuestionRq:
       type: object
@@ -292,6 +307,10 @@ components:
     TestRq:
       type: object
       properties:
+        title:
+          type: string
+          x-oapi-codegen-extra-tags:
+            db: title
         questions:
           type: array
           items:
@@ -299,6 +318,7 @@ components:
           x-oapi-codegen-extra-tags:
             db: questions
       required:
+        - title
         - questions
     QuestionResultRq:
       type: object
@@ -358,7 +378,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CourseRq'
       responses:
-        '200': 
+        '200':
           description: Sucessful response
           content:
             application/json:
@@ -401,7 +421,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CourseRq'
       responses:
-        '200': 
+        '200':
           description: Sucessful response
           content:
             application/json:
@@ -460,7 +480,7 @@ paths:
             schema:
               $ref: '#/components/schemas/ModuleRq'
       responses:
-        '200': 
+        '200':
           description: Sucessful response
           content:
             application/json:
@@ -503,7 +523,7 @@ paths:
             schema:
               $ref: '#/components/schemas/ModuleRq'
       responses:
-        '200': 
+        '200':
           description: Sucessful response
           content:
             application/json:
@@ -521,7 +541,7 @@ paths:
             type: string
             format: uuid
       responses:
-        '200': 
+        '200':
           description: Sucessful response
   /lesson:
     post:
@@ -535,7 +555,7 @@ paths:
             schema:
               $ref: '#/components/schemas/LessonRq'
       responses:
-        '200': 
+        '200':
           description: Sucessful response
           content:
             application/json:
@@ -579,7 +599,7 @@ paths:
               $ref: '#/components/schemas/LessonRq'
       
       responses:
-        '200': 
+        '200':
           description: Sucessful response
           content:
             application/json:
@@ -597,7 +617,7 @@ paths:
             type: string
             format: uuid
       responses:
-        '200': 
+        '200':
           description: Sucessful response
   /practice:
     post:
@@ -611,7 +631,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PracticeRq'
       responses:
-        '200': 
+        '200':
           description: Sucessful response
           content:
             application/json:
@@ -654,7 +674,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PracticeRq'
       responses:
-        '200': 
+        '200':
           description: Sucessful response
           content:
             application/json:
@@ -672,7 +692,7 @@ paths:
             type: string
             format: uuid
       responses:
-        '200': 
+        '200':
           description: Sucessful response
   /practice/{id}/result:
     post:
@@ -736,7 +756,7 @@ paths:
             schema:
               $ref: '#/components/schemas/TestRq'
       responses:
-        '200': 
+        '200':
           description: Sucessful response
           content:
             application/json:
@@ -754,7 +774,7 @@ paths:
             type: string
             format: uuid
       responses:
-        '200': 
+        '200':
           description: Sucessful response
   /test:
     post:
@@ -768,7 +788,7 @@ paths:
             schema:
               $ref: '#/components/schemas/TestRq'
       responses:
-        '200': 
+        '200':
           description: Sucessful response
           content:
             application/json:
