@@ -21,7 +21,7 @@ tags:
   - name: practice
     description: endpoints related to practice
   - name: test
-    description: endpoints related to practice
+    description: endpoints related to test
 
 components:
   schemas:
