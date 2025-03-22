@@ -379,7 +379,7 @@ paths:
               $ref: '#/components/schemas/CourseRq'
       responses:
         '200':
-          description: Sucessful response
+          description: Successful response
           content:
             application/json:
               schema:
@@ -422,7 +422,7 @@ paths:
               $ref: '#/components/schemas/CourseRq'
       responses:
         '200':
-          description: Sucessful response
+          description: Successful response
           content:
             application/json:
               schema:
@@ -440,7 +440,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Succesful response
+          description: Successful response
   /modules/{courseId}:
     get:
       summary: Get all modules by course
@@ -481,7 +481,7 @@ paths:
               $ref: '#/components/schemas/ModuleRq'
       responses:
         '200':
-          description: Sucessful response
+          description: Successful response
           content:
             application/json:
               schema:
@@ -524,7 +524,7 @@ paths:
               $ref: '#/components/schemas/ModuleRq'
       responses:
         '200':
-          description: Sucessful response
+          description: Successful response
           content:
             application/json:
               schema:
@@ -542,12 +542,19 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Sucessful response
-  /lesson:
+          description: Successful response
+  /lessons/{moduleId}:
     post:
       summary: Create lesson
       tags:
         - lesson
+      parameters:
+        - in: path
+          name: moduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -556,7 +563,7 @@ paths:
               $ref: '#/components/schemas/LessonRq'
       responses:
         '200':
-          description: Sucessful response
+          description: Successful response
           content:
             application/json:
               schema:
@@ -600,7 +607,7 @@ paths:
       
       responses:
         '200':
-          description: Sucessful response
+          description: Successful response
           content:
             application/json:
               schema:
@@ -618,12 +625,19 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Sucessful response
-  /practice:
+          description: Successful response
+  /practices/{moduleId}:
     post:
       summary: Create practice
       tags:
         - practice
+      parameters:
+        - in: path
+          name: moduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -632,7 +646,7 @@ paths:
               $ref: '#/components/schemas/PracticeRq'
       responses:
         '200':
-          description: Sucessful response
+          description: Successful response
           content:
             application/json:
               schema:
@@ -675,7 +689,7 @@ paths:
               $ref: '#/components/schemas/PracticeRq'
       responses:
         '200':
-          description: Sucessful response
+          description: Successful response
           content:
             application/json:
               schema:
@@ -693,7 +707,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Sucessful response
+          description: Successful response
   /practice/{id}/result:
     post:
       summary: Get practice result
@@ -757,7 +771,7 @@ paths:
               $ref: '#/components/schemas/TestRq'
       responses:
         '200':
-          description: Sucessful response
+          description: Successful response
           content:
             application/json:
               schema:
@@ -775,12 +789,19 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Sucessful response
-  /test:
+          description: Successful response
+  /tests/{moduleId}:
     post:
       summary: Create test
       tags:
         - test
+      parameters:
+        - in: path
+          name: moduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -789,7 +810,7 @@ paths:
               $ref: '#/components/schemas/TestRq'
       responses:
         '200':
-          description: Sucessful response
+          description: Successful response
           content:
             application/json:
               schema:
