@@ -641,9 +641,15 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PracticeRq'
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                metadata:
+                  $ref: '#/components/schemas/PracticeRq'
       responses:
         '200':
           description: Successful response
@@ -667,9 +673,15 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json:
+            multipart/form-data:
               schema:
-                $ref: '#/components/schemas/PracticeRs'
+                type: object
+                properties:
+                  file:
+                    type: string
+                    format: binary
+                  metadata:
+                    $ref: '#/components/schemas/PracticeRs'
     put:
       summary: Change practice data
       tags:
@@ -684,9 +696,15 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PracticeRq'
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                metadata:
+                  $ref: '#/components/schemas/PracticeRq'
       responses:
         '200':
           description: Successful response
