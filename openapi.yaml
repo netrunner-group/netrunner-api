@@ -22,9 +22,39 @@ tags:
     description: endpoints related to practice
   - name: test
     description: endpoints related to test
+  - name: files
+    description: endpoints related to files
 
 components:
   schemas:
+    UploadFileRs:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+      required:
+        - id
+    GetFileRs:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        file:
+          type: string
+          format: binary
+      required:
+        - id
+        - file
+    FileRq:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+      required:
+        - file
     CourseRq:
       type: object
       properties:
@@ -353,6 +383,81 @@ components:
         - result
 
 paths:
+  /file/{id}:
+    get:
+      summary: Get file by id
+      tags:
+        - files
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Successful response
+          content:
+            multipart/form-data:
+              schema:
+                $ref: '#/components/schemas/GetFileRs'
+    delete:
+      summary: Delete file by id
+      tags:
+        - files
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Successful response
+    put:
+      summary: Update file by id
+      tags:
+        - files
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileRq'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadFileRs'
+  /files:
+    post:
+      summary: Upload new file
+      tags:
+        - files
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileRq'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadFileRs'
   /courses:
     get:
       summary: Get all courses
@@ -641,15 +746,9 @@ paths:
       requestBody:
         required: true
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
-                metadata:
-                  $ref: '#/components/schemas/PracticeRq'
+              $ref: '#/components/schemas/PracticeRq'
       responses:
         '200':
           description: Successful response
@@ -673,15 +772,9 @@ paths:
         '200':
           description: Successful response
           content:
-            multipart/form-data:
+            application/json:
               schema:
-                type: object
-                properties:
-                  file:
-                    type: string
-                    format: binary
-                  metadata:
-                    $ref: '#/components/schemas/PracticeRs'
+                $ref: '#/components/schemas/PracticeRs'
     put:
       summary: Change practice data
       tags:
@@ -696,15 +789,9 @@ paths:
       requestBody:
         required: true
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
-                metadata:
-                  $ref: '#/components/schemas/PracticeRq'
+              $ref: '#/components/schemas/PracticeRq'
       responses:
         '200':
           description: Successful response
